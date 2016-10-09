@@ -21,7 +21,7 @@ module.exports.create = (event, context, cb) => {
         if (error) {
             return cb(error);
         }
-        const reportUserName = user ? user.replace(/@?([\w-]+)/, "https://github.com/$1") : "Anonymous";
+        const reportUserName = user ? user.replace(/@?([\w-]+)/, "$1") : "Anonymous";
         const issueData = {
             title: title,
             body: `---
