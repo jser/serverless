@@ -8,6 +8,9 @@ const getTitleAtUrl = require('get-title-at-url');
 const isAbsoluteUrl = require('is-absolute-url');
 module.exports.create = (event, context, cb) => {
     const body = event.body;
+    if(!body) {
+        return cb(new Error("No body"));
+    }
     const url = body.url;
     const user = body.user;
     const description = body.description || "";

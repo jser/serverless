@@ -28,13 +28,14 @@ custom:
 functions:
   create:
     handler: handler.create
-    timeout: 5
+    timeout: 10
     memory: 256
     events:
       - http:
           path: ping/create
           method: post
           cors: true
+
 #    you can add any of the following events
 #    events:
 #      - http:
