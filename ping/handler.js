@@ -39,7 +39,10 @@ ${description}
         issues.createIssue(issueData).then(response => {
             const data = response.data;
             const issueURL = data["html_url"];
-            cb(null, {message: `Success: ${issueURL}`});
+            cb(null, {
+                message: `Created Issue!`,
+                html_url: issueURL
+            });
         }).catch(error => {
             console.error(error);
             cb(new Error("Fail to create issue."));
