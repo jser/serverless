@@ -18,6 +18,18 @@ Create `secret.json` in this directory
 }
 ```
 
+### API
+
+API Post Body:
+
+```json
+{
+  "url": "https://jser.info",
+  "description": "短いメッセージ",
+  "user": "@azu"
+}
+```
+
 ## Deploy
 
 Using [Serverless Framework](https://serverless.com/ "Serverless Framework")
