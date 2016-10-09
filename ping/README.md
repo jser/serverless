@@ -30,6 +30,23 @@ API Post Body:
 }
 ```
 
+JavaScript:
+
+```js
+var xhr = new XMLHttpRequest();
+xhr.onload = () => {
+    console.log(xhr);
+};
+xhr.open("POST", "API/ping/create");
+xhr.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+var data = {
+    "url": "https://jser.info",
+    "description": "短いメッセージ",
+    "user": "@azu"
+};
+xhr.send(JSON.stringify(data));
+```
+
 ## Deploy
 
 Using [Serverless Framework](https://serverless.com/ "Serverless Framework")
