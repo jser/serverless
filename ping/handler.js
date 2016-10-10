@@ -8,7 +8,7 @@ const getTitleAtUrl = require('get-title-at-url');
 const isAbsoluteUrl = require('is-absolute-url');
 module.exports.create = (event, context, cb) => {
     const body = event.body;
-    if(!body) {
+    if (!body) {
         return cb(new Error("No body"));
     }
     const url = body.url;
@@ -24,7 +24,9 @@ module.exports.create = (event, context, cb) => {
         if (error) {
             return cb(error);
         }
-        const reportUserName = user ? user.replace(/@?([\w-]+)/, "https://github.com/$1") : "Anonymous";
+        const reportUserName = user
+            ? user.replace("https://github.com/", "").replace(/@?([\w-]+)/, "https://github.com/$1")
+            : "Anonymous";
         const issueData = {
             title: title,
             body: `---
