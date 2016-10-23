@@ -4,8 +4,13 @@ const PostToRepo = require("./secret.json").repo;
 const UserName = PostToRepo.split("/")[0];
 const RepoName = PostToRepo.split("/")[1];
 const GitHub = require("github-api");
-const getTitleAtUrl = require('get-title-at-url');
+const getTitle = require('get-title');
+const hyperquest = require('hyperquest');
 const isAbsoluteUrl = require('is-absolute-url');
+const getTitleAtUrl = (url) => {
+    const stream = hyperquest(url);
+    return getTitle(stream);
+};
 module.exports.create = (event, context, cb) => {
     const body = event.body;
     if (!body) {
@@ -20,10 +25,7 @@ module.exports.create = (event, context, cb) => {
     const github = new GitHub({
         token: GitHubToken
     });
-    getTitleAtUrl(url, (title, error) => {
-        if (error) {
-            return cb(error);
-        }
+    getTitleAtUrl(url).then(title => {
         const reportUserName = user
             ? user.replace("https://github.com/", "").replace(/@?([\w-]+)/, "https://github.com/$1")
             : "Anonymous";
@@ -52,5 +54,7 @@ ${description}
             console.error(error);
             cb(new Error("Fail to create issue."));
         });
+    }).catch(error => {
+        return cb(error);
     });
 };
