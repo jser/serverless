@@ -1,4 +1,5 @@
 'use strict';
+const DEBUG = process.env.DEBUG ? true : false;
 const GitHubToken = require("./secret.json").GitHubToken;
 const PostToRepo = require("./secret.json").repo;
 const UserName = PostToRepo.split("/")[0];
@@ -26,6 +27,9 @@ module.exports.create = (event, context, cb) => {
         token: GitHubToken
     });
     getTitleAtUrl(url).then(title => {
+        if (DEBUG) {
+            console.log(`URL: ${url}`, `title: ${title}`);
+        }
         const reportUserName = user
             ? user.replace("https://github.com/", "").replace(/@?([\w-]+)/, "https://github.com/$1")
             : "Anonymous";
@@ -42,6 +46,11 @@ ${description}
 `,
             labels: ["request"]
         };
+        if (DEBUG) {
+            console.log(`IssueData`, issueData);
+            console.log(`DEBUG mode not create issue`);
+            return;
+        }
         const issues = github.getIssues(UserName, RepoName);
         issues.createIssue(issueData).then(response => {
             const data = response.data;
