@@ -1,5 +1,5 @@
 'use strict';
-const DEBUG = process.env.DEBUG ? true : false;
+const DEBUG = !!process.env.DEBUG;
 const GitHubToken = require("./secret.json").GitHubToken;
 const PostToRepo = require("./secret.json").repo;
 const UserName = PostToRepo.split("/")[0];
@@ -15,6 +15,7 @@ const getTitleAtUrl = (url) => {
 module.exports.create = (event, context, cb) => {
     const body = event.body;
     if (!body) {
+        console.log(JSON.stringify(event));
         return cb(new Error("No body"));
     }
     const url = body.url;
@@ -55,10 +56,17 @@ ${description}
         issues.createIssue(issueData).then(response => {
             const data = response.data;
             const issueURL = data["html_url"];
-            cb(null, {
-                message: `Created Issue!`,
-                html_url: issueURL
-            });
+            const response = {
+                statusCode: 200,
+                headers: {
+                    "Access-Control-Allow-Origin" : "*" // Required for CORS support to work
+                },
+                body: JSON.stringify({
+                    message: `Created Issue!`,
+                    html_url: issueURL
+                })
+            };
+            cb(null, response);
         }).catch(error => {
             console.error(error);
             cb(new Error("Fail to create issue."));

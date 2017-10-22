@@ -1,5 +1,7 @@
 {
-  "url": "https://github.com/azu/read-all-later",
-  "description": "短いメッセージ",
-  "user": "@azu"
+  "body": {
+    "url": "https://github.com/jser/jser.info",
+    "description": "短いメッセージ",
+    "user": "@azu"
+  }
 }

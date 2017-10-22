@@ -51,8 +51,20 @@ xhr.send(JSON.stringify(data));
 
 Using [Serverless Framework](https://serverless.com/ "Serverless Framework")
 
-    sls deploy
+    npm run deploy
 
 ## Testing
 
-    sls invoke -f create
+    npm run invoke
+    
+## FAQ
+
+> Stack:arn:aws:cloudformation:ap-northeast-1:xxx:stack/ping-prod/bbxxxs in DELETE_FAILED state and can not be updated.
+
+DELETE中にcloudformationが詰まった。
+cloudformationで削除する
+
+
+>   An error occurred: CreateLogGroup - /aws/lambda/ping-prod-create already exists.
+
+CloudWatchのロググループが更新できないバグ

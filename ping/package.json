@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "description": "ping",
   "main": "handler.js",
-  "scripts": {},
+  "scripts": {
+    "deploy": "serverless deploy --stage prod",
+    "invoke": "serverless invoke -f create --stage prod"
+  },
   "keywords": [
     "github"
   ],
