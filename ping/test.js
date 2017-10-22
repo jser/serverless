@@ -1,9 +1,7 @@
 // LICENSE : MIT
 "use strict";
 process.env.DEBUG = true;
-require("./handler").create({
-    body: require("./event.json")
-}, {}, function cb(error, response) {
+require("./handler").create(require("./event.json"), {}, function cb(error, response) {
     if (error) {
         throw error;
     }

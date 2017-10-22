@@ -13,11 +13,12 @@ const getTitleAtUrl = (url) => {
     return getTitle(stream);
 };
 module.exports.create = (event, context, cb) => {
-    const body = event.body;
-    if (!body) {
+    if (!event.body) {
         console.log(JSON.stringify(event));
         return cb(new Error("No body"));
     }
+    // body is string
+    const body = JSON.parse(event.body);
     const url = body.url;
     const user = body.user;
     const description = body.description || "";
@@ -53,13 +54,13 @@ ${description}
             return;
         }
         const issues = github.getIssues(UserName, RepoName);
-        issues.createIssue(issueData).then(response => {
-            const data = response.data;
+        issues.createIssue(issueData).then(res => {
+            const data = res.data;
             const issueURL = data["html_url"];
             const response = {
                 statusCode: 200,
                 headers: {
-                    "Access-Control-Allow-Origin" : "*" // Required for CORS support to work
+                    "Access-Control-Allow-Origin": "*" // Required for CORS support to work
                 },
                 body: JSON.stringify({
                     message: `Created Issue!`,

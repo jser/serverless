@@ -13,7 +13,7 @@ custom:
     prod: serverless
 
 functions:
-  create:
+  createPing:
     handler: handler.create
     timeout: 10
     memory: 256

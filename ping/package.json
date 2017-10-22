@@ -5,7 +5,7 @@
   "main": "handler.js",
   "scripts": {
     "deploy": "serverless deploy --stage prod",
-    "invoke": "serverless invoke -f create --stage prod"
+    "invoke": "serverless invoke -f createPing --stage prod"
   },
   "keywords": [
     "github"
