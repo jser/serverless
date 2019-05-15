@@ -8,6 +8,7 @@ const GitHub = require("github-api");
 const getTitle = require('get-title');
 const hyperquest = require('hyperquest');
 const isAbsoluteUrl = require('is-absolute-url');
+const siteList = require("./list");
 const getTitleAtUrl = (url) => {
     const stream = hyperquest(url);
     return getTitle(stream);
@@ -24,6 +25,27 @@ module.exports.create = (event, context, cb) => {
     const description = body.description || "";
     if (!isAbsoluteUrl(url)) {
         return cb(new Error(`${url} is not URL`));
+    }
+    const denyList = siteList.filter(site => {
+        return site.deny;
+    });
+    const isDenied = denyList.some(site => {
+        return site.url.test(url);
+    });
+    // response is 200, just ignore
+    if (isDenied) {
+        const falsePositiveResponse = {
+            statusCode: 200,
+            headers: {
+                "Access-Control-Allow-Origin": "*" // Required for CORS support to work
+            },
+            body: JSON.stringify({
+                message: "",
+                html_url: ""
+            })
+        };
+        cb(null, falsePositiveResponse);
+        return;
     }
     const github = new GitHub({
         token: GitHubToken
